@@ -1,6 +1,8 @@
 h2. git_local
 
-git_local is intended to provide a browser view of your local git repos.  It's pretty much useless in it's current state though.
+git_local is intended to provide a browser view of your local git repos.
+
+it's basically an excuse to play with grit and sinatra, and it's pretty much useless in it's current state...
 
 h3. gems
 * sinatra
@@ -11,4 +13,6 @@ h3. gems
 h3. Usage
 * add the repo to repos.yml (currently only supports one)
 * start the server
-<pre>ruby git_local.rb</pre>
+<pre><code>
+ruby git_local.rb
+</code></pre>
