@@ -1,0 +1,14 @@
+<h1>Git Local - Tree</h1>
+<p>viewing: <%= params[:name] || '/' %></p>
+<ul>
+	<% if @tree != nil %>
+	<% @tree.contents.each do |c| %>
+	<li><a href="/tree/<%= c.name %>"><%= c.name %></a></li>
+	<% end %>
+	<% end %>
+	<% if @nested_tree != nil %>
+	<% @nested_tree.contents.each do |c| %>
+		<li><a href="/tree/<%= params[:name] %>/<%= c.name %>"><%= c.name %></a></li>
+	<% end %>
+	<% end %>
+</ul>

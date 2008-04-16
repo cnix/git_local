@@ -1,0 +1,12 @@
+<h1>Git Local - History</h1>
+<ul>
+<% @repo.commits.each do |c| %>
+	<li><a href="/history/<%= c %>"><%= c %></a></li>
+	
+	<ul>
+		<li><%= c.message %></li>
+		<li><%= c.authored_date.strftime("Committed by #{c.author} on %m/%d/%Y, at %I:%M%p") %></li>
+	</ul>
+
+<% end %>
+</ul>
