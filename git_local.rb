@@ -33,6 +33,10 @@ get "/tree" do
   erb :tree
 end
 
+get "/admin" do
+  erb :admin
+end
+
 # need to figure out how get routing to allow us to drill deeper into trees
 get "/tree/:name" do
   @nested_tree = get_tree/params[:name]
@@ -40,18 +44,24 @@ get "/tree/:name" do
 end
 
 post "/add_repo" do
+  init_new_git(params[:name])
   load_repos
   set_index
   @repo_to_create = { @repo => {'path' => params[:path], 'name' => params[:name]}}
   yaml_to_write
-  File.open('repos.yml', 'w') do |w|
+  File.open('config/repos.yml', 'w') do |w|
     YAML.dump(yaml_to_write, w)
   end
   redirect '/'
 end
 
-
 private
+
+def init_new_git(name)
+  require 'fileutils'
+  new_path = FileUtils.mkpath(all_repos_path + underscorify(name) + '/')
+  Grit::Repo.init_bare(new_path + underscorify(params[:name]) + '.git')
+end
 
 def yaml_to_write
   if @all_repos == false
@@ -78,15 +88,28 @@ def get_tree
 end
 
 def load_repos
-  if File.exists?("repos.yml")
-    @all_repos = YAML::load(open("repos.yml"))
+  if File.exists?("config/repos.yml")
+    @all_repos = YAML::load(open("config/repos.yml"))
   else
     @all_repos = {}
   end
+end
+
+def all_repos_path
+  config = YAML::load(open("config/config.yml"))
+  config.each {|key,value| return value.to_s unless value.nil? }
 end
 
 # This thing will likely change alot once multiple repositories are supported
 def current_repo
   load_repos
   @all_repos.each {|key,value| return value.to_s unless value.nil? }
+end
+
+def underscorify(params)
+  params.gsub(/[^a-z0-9]+/i, '_').downcase
+end
+
+def to_param
+  gsub(/[^a-z0-9]+/i, '-')
 end
