@@ -78,7 +78,11 @@ def get_tree
 end
 
 def load_repos
-  @all_repos = YAML::load(open("repos.yml"))
+  if File.exists?("repos.yml")
+    @all_repos = YAML::load(open("repos.yml"))
+  else
+    @all_repos = {}
+  end
 end
 
 # This thing will likely change alot once multiple repositories are supported
