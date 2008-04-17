@@ -1,4 +1,7 @@
 <h1>Git Local - Admin</h1>
+<% if @config != {} %>
+<p>Your repository is located at <%= @config['path'] %></p>
+<% end %>
+<%= erb :config_form, :layout => false if @config == {} %>
 
 <%= erb :repo_form, :layout => false %>
-
