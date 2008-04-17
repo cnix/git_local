@@ -9,11 +9,11 @@ h3. gems
 * sinatra
 * syntaxi
 * grit
-* yaml
 
 h3. Usage
 
 * add the repo to repos.yml (currently only supports one)
+
 * start the server:
 <pre><code>
 ruby git_local.rb

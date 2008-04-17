@@ -10,6 +10,7 @@ Syntaxi::wrap_at_column = 120
 layout 'layout.erb'
 
 get "/" do
+  load_repos
   erb :index
 end
 
@@ -38,8 +39,35 @@ get "/tree/:name" do
   erb :tree
 end
 
+post "/add_repo" do
+  load_repos
+  set_index
+  @repo_to_create = { @repo => {'path' => params[:path], 'name' => params[:name]}}
+  yaml_to_write
+  File.open('repos.yml', 'w') do |w|
+    YAML.dump(yaml_to_write, w)
+  end
+  redirect '/'
+end
+
 
 private
+
+def yaml_to_write
+  if @all_repos == false
+    @repo_to_create
+  else
+    @all_repos.merge(@repo_to_create)
+  end
+end
+
+def set_index
+  if @all_repos == false
+    @repo = 'repository_1'
+  else
+    @repo = 'repository_' + (@all_repos.size + 1).to_s
+  end
+end
 
 def get_repo
   Grit::Repo.new(current_repo)
