@@ -47,12 +47,6 @@ get "/tree/:name/*" do
   erb :tree
 end
 
-get "/admin" do
-  load_config
-  load_repos
-  erb :admin
-end
-
 post "/create_repo_path" do
   create_repositories_path(params[:path])
   redirect '/'
@@ -63,7 +57,7 @@ post "/add_repo" do
   set_index
   load_config
   path = @config['path'] + '/' + underscorify(params[:name]) + '.git'
-  @repo_to_create = { @repo => {'path' => path, 'name' => params[:name]}}
+  @repo_to_create = { @repo => {'path' => path, 'name' => params[:name], 'formatted_name' => underscorify(params[:name])}}
   yaml_to_write
   File.open('config/repos.yml', 'w') do |w|
     YAML.dump(yaml_to_write, w)
