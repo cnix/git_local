@@ -1,7 +1,7 @@
 <h1>Git Local - History</h1>
 <ul>
 <% @repo.commits.each do |c| %>
-	<li><a href="/history/<%= c %>"><%= c %></a></li>
+	<li><a href="/history/<%= params[:name] %>/<%= c %>"><%= c %></a></li>
 	
 	<ul>
 		<li><%= c.message %></li>

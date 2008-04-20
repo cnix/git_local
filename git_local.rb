@@ -14,14 +14,14 @@ get "/" do
   erb :index
 end
 
-get "/history" do
-  @repo = get_repo
+get "/history/:name" do
+  @repo = get_repo(params[:name])
   erb :history
 end
 
 # TODO: need to figure out how to traverse commits
-get "/history/:id" do
-  repo = get_repo
+get "/history/:name/:id" do
+  repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
   diff_text = "[code lang=\"ruby\"]" + repo.diff(commit.parents[0], commit) + "[/code]"
   @formatted_text = Syntaxi.new(diff_text).process
