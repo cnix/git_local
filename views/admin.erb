@@ -5,3 +5,11 @@
 <%= erb :config_form, :layout => false if @config == {} %>
 
 <%= erb :repo_form, :layout => false %>
+<div id="admin_repos">
+	Your Projects:
+	<ul>
+		<% @all_repos.each do |key,value| %>
+			<li><a href="/tree/<%= value['formatted_name'] %>"><%= value['name'] %></a></li>
+		<% end %>
+	</ul>
+</div>

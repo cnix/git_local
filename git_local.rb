@@ -28,19 +28,27 @@ get "/history/:id" do
   erb :diff
 end
 
-get "/tree" do
-  @tree = get_tree
+get "/tree/:name" do
+  @tree = get_repo(params[:name]).tree
   erb :tree
 end
 
-# TODO: Figure out how to get routing to allow us to drill deeper into trees
-get "/tree/:name" do
-  @nested_tree = get_tree/params[:name]
+get "/tree/:name/*" do
+  path = request.path_info.gsub("/tree/#{params[:name]}/", '')
+  if path.split('/').length >= 2
+    new_tree = path.split('/').pop
+    new_tree.to_s
+    @tree = get_repo(params[:name]).tree(new_tree)
+  else
+    @tree = get_repo(params[:name]).tree
+  end
+   
   erb :tree
 end
 
 get "/admin" do
   load_config
+  load_repos
   erb :admin
 end
 
@@ -60,7 +68,7 @@ post "/add_repo" do
     YAML.dump(yaml_to_write, w)
   end
   init_new_git(path)
-  redirect '/'
+  redirect '/admin'
 end
 
 private
@@ -112,12 +120,16 @@ def set_index
   end
 end
 
-def get_repo
-  Grit::Repo.new(current_repo)
-end
-
-def get_tree
-  Grit::Repo.new(current_repo).tree
+def get_repo(name)
+  load_repos
+  @all_repos.each do |key,value|
+    if name == value['formatted_name']
+      @path = value['path']
+    else
+      raise "Path Does Not Exist #{@repo.inspect}"
+    end
+  end
+  Grit::Repo.new(@path)
 end
 
 def load_repos
@@ -131,12 +143,6 @@ end
 def all_repos_path
   config = YAML::load(open("config/config.yml"))
   config.each {|key,value| return value.to_s unless value.nil? }
-end
-
-# This thing will likely change alot once multiple repositories are supported
-def current_repo
-  load_repos
-  @all_repos.each {|key,value| return value.to_s unless value.nil? }
 end
 
 def underscorify(params)
