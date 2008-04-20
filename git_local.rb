@@ -120,8 +120,6 @@ def get_repo(name)
   @all_repos.each do |key,value|
     if name == value['formatted_name']
       @path = value['path']
-    else
-      raise "Path Does Not Exist #{@repo.inspect}"
     end
   end
   Grit::Repo.new(@path)
