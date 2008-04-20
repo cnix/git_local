@@ -10,6 +10,7 @@ Syntaxi::wrap_at_column = 120
 layout 'layout.erb'
 
 get "/" do
+  load_config
   load_repos
   erb :index
 end
@@ -54,7 +55,7 @@ end
 
 post "/create_repo_path" do
   create_repositories_path(params[:path])
-  redirect '/admin'
+  redirect '/'
 end
 
 post "/add_repo" do
