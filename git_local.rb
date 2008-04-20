@@ -69,7 +69,7 @@ post "/add_repo" do
     YAML.dump(yaml_to_write, w)
   end
   init_new_git(path)
-  redirect '/admin'
+  redirect '/'
 end
 
 private
