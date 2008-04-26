@@ -1,4 +1,5 @@
 #!ruby
+
 require 'rubygems'
 require 'syntaxi'
 require 'grit'
@@ -66,78 +67,84 @@ post "/add_repo" do
   redirect '/'
 end
 
-private
-
-def init_new_git(path)
-  Grit::Repo.init_bare(path)
+get '/stylesheet.css' do
+  header 'Content-Type' => 'text/css; charset=utf-8'
+  sass :stylesheet
 end
 
-def yaml_to_write
-  if @all_repos == false
-    @repo_to_create
-  else
-    @all_repos.merge(@repo_to_create)
+helpers do
+
+  def init_new_git(path)
+    Grit::Repo.init_bare(path)
   end
-end
 
-# TODO: refactor above and below methods
-def config_to_write
-  if @config == false
-    @config_to_create
-  else
-    @config.merge(@config_to_create)
-  end
-end
-
-def load_config
-  if File.exists?("config/config.yml")
-    @config = YAML::load(open("config/config.yml"))
-  else
-    @config = {}
-  end
-end
-
-def create_repositories_path(path)
-  load_config
-  Dir.mkdir(path)
-  @config_to_create = { 'path' => path }
-  config_to_write
-  File.open('config/config.yml', 'w') do |w|
-    YAML.dump(config_to_write, w)
-  end
-end
-
-def set_index
-  if @all_repos == false
-    @repo = 'repository_1'
-  else
-    @repo = 'repository_' + (@all_repos.size + 1).to_s
-  end
-end
-
-def get_repo(name)
-  load_repos
-  @all_repos.each do |key,value|
-    if name == value['formatted_name']
-      @path = value['path']
+  def yaml_to_write
+    if @all_repos == false
+      @repo_to_create
+    else
+      @all_repos.merge(@repo_to_create)
     end
   end
-  Grit::Repo.new(@path)
-end
 
-def load_repos
-  if File.exists?("config/repos.yml")
-    @all_repos = YAML::load(open("config/repos.yml"))
-  else
-    @all_repos = {}
+  # TODO: refactor above and below methods
+  def config_to_write
+    if @config == false
+      @config_to_create
+    else
+      @config.merge(@config_to_create)
+    end
   end
-end
 
-def all_repos_path
-  config = YAML::load(open("config/config.yml"))
-  config.each {|key,value| return value.to_s unless value.nil? }
-end
+  def load_config
+    if File.exists?("config/config.yml")
+      @config = YAML::load(open("config/config.yml"))
+    else
+      @config = {}
+    end
+  end
 
-def underscorify(params)
-  params.gsub(/[^a-z0-9]+/i, '_').downcase
+  def create_repositories_path(path)
+    load_config
+    Dir.mkdir(path)
+    @config_to_create = { 'path' => path }
+    config_to_write
+    File.open('config/config.yml', 'w') do |w|
+      YAML.dump(config_to_write, w)
+    end
+  end
+
+  def set_index
+    if @all_repos == false
+      @repo = 'repository_1'
+    else
+      @repo = 'repository_' + (@all_repos.size + 1).to_s
+    end
+  end
+
+  def get_repo(name)
+    load_repos
+    @all_repos.each do |key,value|
+      if name == value['formatted_name']
+        @path = value['path']
+      end
+    end
+    Grit::Repo.new(@path)
+  end
+
+  def load_repos
+    if File.exists?("config/repos.yml")
+      @all_repos = YAML::load(open("config/repos.yml"))
+    else
+      @all_repos = {}
+    end
+  end
+
+  def all_repos_path
+    config = YAML::load(open("config/config.yml"))
+    config.each {|key,value| return value.to_s unless value.nil? }
+  end
+
+  def underscorify(params)
+    params.gsub(/[^a-z0-9]+/i, '_').downcase
+  end
 end
