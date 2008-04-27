@@ -9,6 +9,7 @@ h3. gems
 * sinatra
 * syntaxi
 * grit
+* haml
 
 h3. Usage
 
