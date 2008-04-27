@@ -21,7 +21,7 @@ end
 get "/history/:name/:id" do
   repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
-  diff_text = "[code lang=\"ruby\"]" + repo.diff(commit.parents[0], commit) + "[/code]"
+  diff_text = "[code lang=\"diff\"]" + repo.diff(commit.parents[0], commit) + "[/code]"
   @formatted_text = Syntaxi.new(diff_text).process
   haml :diff
 end
