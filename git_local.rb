@@ -4,6 +4,7 @@
 %w(rubygems syntaxi grit sinatra yaml haml).each {|d| require d}
 
 Syntaxi::wrap_at_column = 120
+Syntaxi::line_number_method = 'floating'
 layout 'layout.haml'
 get "/" do
   load_config

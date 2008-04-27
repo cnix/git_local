@@ -1,3 +1,0 @@
-h2. Configuration
-
-* It's automatic - start the server and go to /admin
