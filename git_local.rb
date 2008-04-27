@@ -34,8 +34,10 @@ get "/tree/:name/*" do
   path = request.path_info.gsub("/tree/#{params[:name]}/", '')
   if path.split('/').length >= 2
     new_tree = path.split('/').pop
-    new_tree.to_s
     @tree = get_repo(params[:name]).tree(new_tree)
+    @blob = get_repo(params[:name]).blob(new_tree)
+    file_text = "[code lang=\"ruby\"]" + @blob.data + "[/code]"
+    @formatted_text = Syntaxi.new(file_text).process
   else
     @tree = get_repo(params[:name]).tree
   end

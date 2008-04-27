@@ -1,7 +1,7 @@
 %h1= "Git Local - History"
 %ul
   - @repo.commits.each do |c|
-  %li
+  %li.sha
     %a{:href => "/history/#{params[:name]}/#{c}"}= c
     %ul
       %li= c.message
