@@ -1,0 +1,26 @@
+%h1 Git Local
+- if @config != {}
+%p= "Your repository is located at #{@config['path']}"
+- end
+
+- if @config == {}
+%form{:action => '/create_repo_path', :method => 'post'}
+  %p
+    %label{:for => 'post'} Create a path for your repository: (/var/my_cool_new_git_repository)
+    %input{:type => 'text', :name => 'path'}
+    %input{:type => 'submit', :value => 'Create'}
+-end    
+
+%form{:action => '/add_repo', :method => 'post'}
+  %p
+    %label{:for => 'name'}Create a new project:
+    %br
+    %input{:type => 'text', :name => 'name'}
+    %input{:type =>  'submit', :value => 'Create'}
+ 
+%div#admin_repos
+  %h2 Your Projects:
+  %ul
+    - @all_repos.each do |key,value|
+      %li
+        %a{:href => "/tree/#{value['formatted_name']}"}= value['name']

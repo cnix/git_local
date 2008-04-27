@@ -1,0 +1,11 @@
+%h1= "Git Local - Tree"
+%p
+  = "viewing: #{request.path_info.gsub('tree/','')}"
+  %a{:href => "/history/#{params[:name]}"} (history)
+%ul
+  - if @tree != nil
+  - @tree.contents.each do |c|
+  %li
+    %a{:href => "#{request.path_info}/#{c.name}/#{c.id}"}= c.name
+  - end
+  - end

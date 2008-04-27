@@ -1,24 +1,19 @@
 #!ruby
 
-require 'rubygems'
-require 'syntaxi'
-require 'grit'
-require 'sinatra'
-require 'yaml'
+# Required Gems
+%w(rubygems syntaxi grit sinatra yaml haml).each {|d| require d}
 
 Syntaxi::wrap_at_column = 120
-
-layout 'layout.erb'
-
+layout 'layout.haml'
 get "/" do
   load_config
   load_repos
-  erb :index
+  haml :index
 end
 
 get "/history/:name" do
   @repo = get_repo(params[:name])
-  erb :history
+  haml :history
 end
 
 # TODO: need to figure out how to traverse commits
@@ -27,12 +22,12 @@ get "/history/:name/:id" do
   commit = repo.commit(params[:id])
   diff_text = "[code lang=\"ruby\"]" + repo.diff(commit.parents[0], commit) + "[/code]"
   @formatted_text = Syntaxi.new(diff_text).process
-  erb :diff
+  haml :diff
 end
 
 get "/tree/:name" do
   @tree = get_repo(params[:name]).tree
-  erb :tree
+  haml :tree
 end
 
 get "/tree/:name/*" do
@@ -45,7 +40,7 @@ get "/tree/:name/*" do
     @tree = get_repo(params[:name]).tree
   end
    
-  erb :tree
+  haml :tree
 end
 
 post "/create_repo_path" do

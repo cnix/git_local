@@ -1,0 +1,9 @@
+%h1= "Git Local - History"
+%ul
+  - @repo.commits.each do |c|
+  %li
+    %a{:href => "/history/#{params[:name]}/#{c}"}= c
+    %ul
+      %li= c.message
+      %li= c.authored_date.strftime("Committed by #{c.author} on %m/%d/%Y, at %I:%M%p")
+  - end
