@@ -21,7 +21,7 @@ end
 get "/history/:name/:id" do
   repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
-  diff_text = "[code lang=\"diff\"]" + repo.diff(commit.parents[0], commit) + "[/code]"
+  diff_text = '[code lang="diff"]' + repo.diff(commit.parents[0], commit) + '[/code]'
   @formatted_text = Syntaxi.new(diff_text).process
   haml :diff
 end
@@ -37,7 +37,7 @@ get "/tree/:name/*" do
     new_tree = path.split('/').pop
     @tree = get_repo(params[:name]).tree(new_tree)
     @blob = get_repo(params[:name]).blob(new_tree)
-    file_text = "[code lang=\"ruby\"]" + @blob.data + "[/code]"
+    file_text = '[code lang="ruby"]' + @blob.data + '[/code]'
     @formatted_text = Syntaxi.new(file_text).process
   else
     @tree = get_repo(params[:name]).tree

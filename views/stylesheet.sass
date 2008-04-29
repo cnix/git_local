@@ -1,45 +1,72 @@
+// normal grey
+!color1 = #555
+// black
+!color2 = #000
+// palm green
+!color3 = #608341
+// darker palm green
+!color4 = #324F17
+// gold
+!color5 = #E3CF57
+// white
+!color6 = #fff
+// light gray
+!color7 = #eaeaea
+
 body
   :font-family 'Lucida Grande'
-  :background-color #608341
-  :color #555
+  :background-color = !color3
+  :color = !color1
 
 h1
   :margin-left 20px
-  :color #555
+  :color = !color1
 
 a
-  :color #324F17
+  :color = !color4
   :text-decoration none
   &:hover
-    :background-color #324f17
-    :color #E3CF57
+    :background-color = !color4
+    :color = !color5
 
 p
   :margin-left 20px
-  :color #555
+  :color = !color1
 
 p.history
   :text-align right
   :padding-right 20px
 
+code
+  :font
+    :family Monaco, monospace
+    :size 13px
+  &.line_number
+    :margin-left 4px
+
 div#wrapper
   :width 1000px
   :margin 70px auto
-  :border solid 4px #E3CF57
-  :background #fff
+  :border solid 4px
+    :color = !color5
+  :background = !color6
 
 div#diff
-  :color #000
+  :color = !color2
+  
+div#file
+  :margin 0px 10px
+  :background-color = !color7
   
 li.sha
   :margin-top 10px
-  :color #555
+  :color = !color1
 
 div#admin_repos
   :float right
   :width 475px
   :margin 20px
   :margin-top -150px
-  :background #eaeaea
+  :background = !color7
   :-webkit-border-radius 5px
   :padding 10px
