@@ -56,7 +56,39 @@ div#diff
   
 div#file
   :margin 0px 10px
-  :background-color = !color7
+  :background-color #201d1d
+  // Ruby syntax hilighting
+  span.comment
+    :color #1a5adf
+    :font
+      :style italic
+  span.punct
+    :color #2ce429
+  span.string
+    :color #009b13
+  span.ident
+    :color #bcae9e
+  span.constant
+    :color #5d5cf3
+  span.number
+    :color #43aa46
+  span.keyword
+    :color #49a8eb
+    :font
+      :style bold
+  span.symbol
+    :color #c4656c
+    :font
+      :style bold
+  span.attribute
+    :color #348494
+    :font
+      :style bold
+  span.method
+    :color #fd935c
+  span.class
+    :color #bcae9e
+    :text-decoration underline
   
 li.sha
   :margin-top 10px
