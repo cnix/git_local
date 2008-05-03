@@ -7,6 +7,7 @@ Syntaxi::wrap_at_column = 120
 Syntaxi::line_number_method = 'floating'
 layout 'layout.haml'
 get "/" do
+  Syntaxi::line_number_method = 'none'
   load_config
   load_repos
   haml :index
@@ -47,7 +48,7 @@ get "/tree/:name/*" do
 end
 
 post "/create_repo_path" do
-  create_repositories_path(params[:path])
+  create_repositories_path(params[:path], params[:username])
   redirect '/'
 end
 
@@ -101,10 +102,10 @@ helpers do
     end
   end
 
-  def create_repositories_path(path)
+  def create_repositories_path(path, username)
     load_config
     Dir.mkdir(path)
-    @config_to_create = { 'path' => path }
+    @config_to_create = { 'path' => path, 'username' => username }
     config_to_write
     File.open('config/config.yml', 'w') do |w|
       YAML.dump(config_to_write, w)

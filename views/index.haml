@@ -6,8 +6,11 @@
 - if @config == {}
 %form{:action => '/create_repo_path', :method => 'post'}
   %p
-    %label{:for => 'post'} Create a path for your repository: (/var/my_cool_new_git_repository)
-    %input{:type => 'text', :name => 'path'}
+    %label{:for => 'path'} Create a path for your repository: (/var/my_cool_new_git_repository)
+    %input#path{:type => 'text', :name => 'path'}
+    %br
+    %label{:for => 'username'} Your ssh username for this machine
+    %input#username{:type => 'text', :name => 'username'}
     %input{:type => 'submit', :value => 'Create'}
 -end    
 
@@ -15,7 +18,7 @@
   %p
     %label{:for => 'name'}Create a new project:
     %br
-    %input{:type => 'text', :name => 'name'}
+    %input#name{:type => 'text', :name => 'name'}
     %input{:type =>  'submit', :value => 'Create'}
  
 %div#admin_repos
@@ -24,3 +27,16 @@
     - @all_repos.each do |key,value|
       %li
         %a{:href => "/tree/#{value['formatted_name']}"}= value['name']
+        %span
+          %a{:href => "##{value['formatted_name']}", :rel => '#facebox'} ?
+          %div{:id => "#{value['formatted_name']}", :style => 'display:none;', :class => 'boxy'}
+            %p
+              %h3= "Push to #{value['name']}"
+              If this is a new repository for an existing project in your working tree, you might want to use the command below to add git_local as a remote source for you to push to:
+              - text = "[code lang='default']git add remote local #{@config['username']}@#{request.host}:#{value['path']}[/code]"
+              #help_text~ Syntaxi.new(text).process
+              This way, you can just do
+              - text = "[code lang='default']git push local +branch+[/code]"
+              #push_text~ Syntaxi.new(text).process
+              where +branch+ is the branch you're pushing to 
+              %i ie: master
