@@ -5,22 +5,33 @@
 
 - if @config == {}
 %form{:action => '/create_repo_path', :method => 'post'}
+  %h2 Set Up Your Server
   %p
-    %label{:for => 'path'} Create a path for your repository: (/var/my_cool_new_git_repository)
+    %label{:for => 'path'} Create a path for your repository:
+    %i ie: /Users/your_username/git
     %input#path{:type => 'text', :name => 'path'}
-    %br
     %label{:for => 'username'} Your ssh username for this machine
     %input#username{:type => 'text', :name => 'username'}
     %input{:type => 'submit', :value => 'Create'}
--end    
+-end
+- unless @config['username'] || @config == {}
+%form{:action => '/create_repo_path', :method => 'post'}
+  %p
+    %label{:for => 'username'} Enter your ssh username for this machine
+    %input#username{:type => 'text', :name => 'username'}
+    %input#path{:type => 'hidden', :name => 'path', :value => "#{@config['path']}"}
+    %input{:type => 'submit', :value => 'Create'}
+- end  
 
+- unless @config == {}
 %form{:action => '/add_repo', :method => 'post'}
   %p
     %label{:for => 'name'}Create a new project:
-    %br
     %input#name{:type => 'text', :name => 'name'}
     %input{:type =>  'submit', :value => 'Create'}
- 
+- end
+
+-if @all_repos
 %div#admin_repos
   %h2 Your Projects:
   %ul
@@ -40,3 +51,4 @@
               #push_text~ Syntaxi.new(text).process
               where +branch+ is the branch you're pushing to 
               %i ie: master
+-end

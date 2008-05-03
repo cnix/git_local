@@ -104,7 +104,7 @@ helpers do
 
   def create_repositories_path(path, username)
     load_config
-    Dir.mkdir(path)
+    Dir.mkdir(path) unless Dir.new(path)
     @config_to_create = { 'path' => path, 'username' => username }
     config_to_write
     File.open('config/config.yml', 'w') do |w|
