@@ -1,7 +1,7 @@
 #!ruby
 
 # Required Gems
-%w(rubygems syntaxi grit sinatra yaml haml).each {|d| require d}
+%w(rubygems syntaxi grit sinatra yaml haml ftools).each {|d| require d}
 
 Syntaxi::wrap_at_column = 120
 Syntaxi::line_number_method = 'floating'
@@ -104,7 +104,7 @@ helpers do
 
   def create_repositories_path(path, username)
     load_config
-    Dir.mkdir(path) unless Dir.new(path)
+    File.makedirs(path) unless Dir.new(path)
     @config_to_create = { 'path' => path, 'username' => username }
     config_to_write
     File.open('config/config.yml', 'w') do |w|

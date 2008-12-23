@@ -1,54 +1,53 @@
 %h1 Git Local
-- if @config != {}
-%p= "Your repository is located at #{@config['path']}"
-- end
+-if @config != {}
+  %p= "Your repository is located at #{@config['path']}"
 
-- if @config == {}
-%form{:action => '/create_repo_path', :method => 'post'}
-  %h2 Set Up Your Server
-  %p
-    %label{:for => 'path'} Create a path for your repository:
-    %i ie: /Users/your_username/git
-    %input#path{:type => 'text', :name => 'path'}
-    %label{:for => 'username'} Your ssh username for this machine
-    %input#username{:type => 'text', :name => 'username'}
-    %input{:type => 'submit', :value => 'Create'}
--end
-- unless @config['username'] || @config == {}
-%form{:action => '/create_repo_path', :method => 'post'}
-  %p
-    %label{:for => 'username'} Enter your ssh username for this machine
-    %input#username{:type => 'text', :name => 'username'}
-    %input#path{:type => 'hidden', :name => 'path', :value => "#{@config['path']}"}
-    %input{:type => 'submit', :value => 'Create'}
-- end  
+ 
+-if @config == {}
+  %form{:action => '/create_repo_path', :method => 'post'}
+    %h2 Set Up Your Server
+    %p
+      %label{:for => 'path'} Create a path for your repository:
+      %i ie: /Users/your_username/git
+      %input#path{:type => 'text', :name => 'path'}
+      %label{:for => 'username'} Your ssh username for this machine
+      %input#username{:type => 'text', :name => 'username'}
+      %input{:type => 'submit', :value => 'Create'}
 
-- unless @config == {}
-%form{:action => '/add_repo', :method => 'post'}
-  %p
-    %label{:for => 'name'}Create a new project:
-    %input#name{:type => 'text', :name => 'name'}
-    %input{:type =>  'submit', :value => 'Create'}
-- end
+-unless @config['username'] || @config == {}
+  %form{:action => '/create_repo_path', :method => 'post'}
+    %p
+      %label{:for => 'username'} Enter your ssh username for this machine
+      %input#username{:type => 'text', :name => 'username'}
+      %input#path{:type => 'hidden', :name => 'path', :value => "#{@config['path']}"}
+      %input{:type => 'submit', :value => 'Create'}
 
+ 
+-unless @config == {}
+  %form{:action => '/add_repo', :method => 'post'}
+    %p
+      %label{:for => 'name'}Create a new project:
+      %input#name{:type => 'text', :name => 'name'}
+      %input{:type => 'submit', :value => 'Create'}
+
+ 
 -if @all_repos != {}
-%div#admin_repos
-  %h2 Your Projects:
-  %ul
-    - @all_repos.each do |key,value|
-      %li
-        %a{:href => "/tree/#{value['formatted_name']}"}= value['name']
-        %span
-          %a{:href => "##{value['formatted_name']}", :rel => '#facebox'} ?
-          %div{:id => "#{value['formatted_name']}", :style => 'display:none;', :class => 'boxy'}
-            %p
-              %h3= "Push to #{value['name']}"
-              If this is a new repository for an existing project in your working tree, you might want to use the command below to add git_local as a remote source for you to push to:
-              - text = "[code lang='default']git remote add local #{@config['username']}@#{request.host}:#{value['path']}[/code]"
-              #help_text~ Syntaxi.new(text).process
-              This way, you can just do
-              - text = "[code lang='default']git push local +branch+[/code]"
-              #push_text~ Syntaxi.new(text).process
-              where +branch+ is the branch you're pushing to 
-              %i ie: master
--end
+  %div#admin_repos
+    %h2 Your Projects:
+    %ul
+      - @all_repos.each do |key,value|
+        %li
+          %a{:href => "/tree/#{value['formatted_name']}"}= value['name']
+          %span
+            %a{:href => "##{value['formatted_name']}", :rel => '#facebox'} ?
+            %div{:id => "#{value['formatted_name']}", :style => 'display:none;', :class => 'boxy'}
+              %p
+                %h3= "Push to #{value['name']}"
+                If this is a new repository for an existing project in your working tree, you might want to use the command below to add git_local as a remote source for you to push to:
+                - text = "[code lang='default']git remote add local #{@config['username']}@#{request.host}:#{value['path']}[/code]"
+                #help_text~ Syntaxi.new(text).process
+                This way, you can just do
+                - text = "[code lang='default']git push local +branch+[/code]"
+                #push_text~ Syntaxi.new(text).process
+                where +branch+ is the branch you're pushing to
+                %i ie: master

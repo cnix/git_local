@@ -4,11 +4,8 @@
   %a{:href => "/history/#{params[:name]}"} (history)
 %ul
   - if @tree
-  - @tree.contents.each do |c|
-  %li
-    %a{:href => "#{request.path_info}/#{c.name}/#{c.id}"}= c.name
-  - end
-  - end
+    - @tree.contents.each do |c|
+      %li
+        %a{:href => "#{request.path_info}/#{c.name}/#{c.id}"}= c.name
 - if @formatted_text && @tree.contents.empty?
-%div#file~ @formatted_text
-- end
+  %div#file~ @formatted_text
