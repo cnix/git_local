@@ -1,2 +1,9 @@
-%h1 Git Local - Diff
+%h1
+  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "#{params[:name]}"
+  = "-"
+  Diffs
+%p
+  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"} (tree)
+  %a{:href => "/#{params[:name]}/commits/#{params[:id]}"} (commits)
+  %a{:href => "/#{params[:name]}/branches"} (branches)
 %div#diff~ @formatted_text

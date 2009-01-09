@@ -1,4 +1,10 @@
-%h1= "Git Local - History"
+%h1
+  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "#{params[:name]}"
+  = "-"
+  Commits
+%p
+  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"} (tree)
+  %a{:href => "/#{params[:name]}/branches"} (branches)
 %ul
   - @commits.each do |c|
     %li.sha

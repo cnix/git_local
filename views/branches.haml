@@ -1,0 +1,6 @@
+%h1= "Git Local - Branches"
+%p
+%ul
+  - @branches.each do |c|
+    %li
+      %a{:href => "/#{params[:name]}/tree/#{c.name}"}= c.name

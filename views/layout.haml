@@ -8,4 +8,4 @@
     %script{ :src => '/facebox/facebox.js', :type => 'text/javascript' }
     %script{ :src => '/application.js', :type => 'text/javascript' }
   %body
-    #wrapper= yield
+    #wrapper="<a href='/'>home</a> #{yield}"

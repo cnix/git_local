@@ -40,18 +40,23 @@ end
 get "/:name/tree/:id/*" do
   path = request.path_info.gsub("/#{params[:name]}/tree/#{params[:id]}/", '')
   repo = get_repo(params[:name])
+  @repo = repo
   branch = repo.tree(params[:id])
   new_tree = path.split('/')
-  @tree = traverse(branch, new_tree)
-  #if @tree.class == Grit::Blob
-  #  file_text = '[code lang="ruby"]' + @tree.data + '[/code]'
-  #  @formatted_text = Syntaxi.new(file_text).process
-  #end
-  
+  r = traverse(branch, new_tree)
+  if r.class == Grit::Blob
+    file_text = syntaxi_lang(r.name) + r.data + '[/code]'
+    @formatted_text = format_text(file_text)
+  else
+    @tree = r
+  end
   haml :tree
 end
 
-
+get "/:name/branches" do
+  @branches = get_repo(params[:name]).branches
+  haml :branches
+end
 
 post "/create_repo_path" do
   create_repositories_path(params[:path], params[:username])
@@ -94,33 +99,22 @@ helpers do
     return b
   end
   
-  def build_crumb(u, branch)
-    #THIS SHIT IS BROKEN!
-    #This will build you a linked crumb for the path and branch.
-    tree = u.gsub("/#{params[:name]}/tree/#{params[:id]}", '')
-    path = tree.split('/').pop
-    basepath = Array.new
-    url = nil
-    if tree != nil
-      path.each do |p|
-        if basepath.empty?
-          basepath = p + "/"
-          uri = basepath
-        else
-          basepath << p + "/"
-          uri = basepath
-        end
-        
-        if url == nil
-          url = "<a href='/#{params[:name]}/tree/#{branch}'>#{p}</a>"
-        else
-          url = "#{url} / <a href='#{uri}'>#{p}</a>"
-        end
-      end
-    else
-     url = "<a href='#{branch}'>#{branch}</a>"
+  def format_text(file_text)
+    #This method will return the syntaxi formatted text.
+    text = Syntaxi.new(file_text).process
+    return text
+  end
+  
+  def syntaxi_lang(filename)
+    #This method will set the language based on the file extension.
+    filetype = filename.split( '.' )
+    if filetype.last == "rb"
+      lang = "ruby"
     end
-    return url
+    if lang.nil?
+      lang = "all"
+    end
+    return "[code lang='#{lang}']"
   end
   
   def build_uri(path, glob)
