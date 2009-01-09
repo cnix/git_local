@@ -1,7 +1,7 @@
 #!ruby
 
 # Required Gems
-%w(rubygems syntaxi grit sinatra yaml haml ftools).each {|d| require d}
+%w(rubygems syntaxi grit sinatra yaml haml ftools open-uri).each {|d| require d}
 
 Syntaxi::wrap_at_column = 120
 Syntaxi::line_number_method = 'floating'
@@ -13,13 +13,13 @@ get "/" do
   haml :index
 end
 
-get "/history/:name" do
+get "/commits/:id/:name" do
   @repo = get_repo(params[:name])
   haml :history
 end
 
 # TODO: need to figure out how to traverse commits
-get "/history/:name/:id" do
+get "/history/:id/:name" do
   repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
   diff_text = '[code lang="diff"]' + repo.diff(commit.parents[0], commit) + '[/code]'
@@ -27,25 +27,27 @@ get "/history/:name/:id" do
   haml :diff
 end
 
-get "/tree/:name" do
-  @tree = get_repo(params[:name]).tree
+get "/:name/tree/:id" do
+  @repo = get_repo(params[:name])
+  @tree = @repo.tree(params[:id])
   haml :tree
 end
 
-get "/tree/:name/*" do
-  path = request.path_info.gsub("/tree/#{params[:name]}/", '')
-  if path.split('/').length >= 2
-    new_tree = path.split('/').pop
-    @tree = get_repo(params[:name]).tree(new_tree)
-    @blob = get_repo(params[:name]).blob(new_tree)
-    file_text = '[code lang="ruby"]' + @blob.data + '[/code]'
-    @formatted_text = Syntaxi.new(file_text).process
-  else
-    @tree = get_repo(params[:name]).tree
-  end
-   
+get "/:name/tree/:id/*" do
+  path = request.path_info.gsub("/#{params[:name]}/tree/#{params[:id]}/", '')
+  repo = get_repo(params[:name])
+  branch = repo.tree(params[:id])
+  new_tree = path.split('/').pop
+  @tree = traverse(branch, new_tree)
+  #if @tree.class == Grit::Blob
+  #  file_text = '[code lang="ruby"]' + @tree.data + '[/code]'
+  #  @formatted_text = Syntaxi.new(file_text).process
+  #end
+  
   haml :tree
 end
+
+
 
 post "/create_repo_path" do
   create_repositories_path(params[:path], params[:username])
@@ -72,6 +74,53 @@ get '/stylesheet.css' do
 end
 
 helpers do
+  
+  def get_tree_by_name(repo, name)
+    #Feed this the repo object and the tree location name. The return is new tree object
+    r = repo.tree
+    return r./(name)
+  end
+  
+  def traverse(branch, path)
+    #Feed this the branch to start from and the path array. The return is the tree object at the path
+    b = branch.clone
+    path.each do |t|
+      b = b./t
+    end
+    return b
+  end
+  
+  def build_crumb(path, branch)
+    #This will build you a linked crumb for the path and branch.
+    basepath = Array.new
+    url = nil
+    if path != nil
+      path.each do |p|
+        if basepath.empty?
+          basepath = p + "/"
+          uri = URI.unescape(url_for( :path => basepath))
+        else
+          basepath << p + "/"
+          uri = URI.unescape(url_for(:path => basepath))
+        end
+        
+        if url == nil
+          url = "<a href='#{url_for(:branch => branch)}'>#{branch}</a> / <a href='#{uri}'>#{p}</a>"
+        else
+          url = "#{url} / <a href='#{uri}'>#{p}</a>"
+        end
+      end
+    else
+     url = "<a href='#{url_for(:branch => branch)}'>#{branch}</a>"
+    end
+    return url
+  end
+  
+  def build_uri(path, glob)
+    #This will build the base path uri for the tree's parent.
+    uri = path + '/' + glob
+    return uri
+  end
 
   def init_new_git(path)
     Grit::Repo.init_bare(path)

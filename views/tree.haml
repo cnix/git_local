@@ -6,6 +6,6 @@
   - if @tree
     - @tree.contents.each do |c|
       %li
-        %a{:href => "#{request.path_info}/#{c.name}/#{c.id}"}= c.name
+        %a{:href => "#{build_uri(request.path_info, c.name)}"}= c.name
 - if @formatted_text && @tree.contents.empty?
   %div#file~ @formatted_text
