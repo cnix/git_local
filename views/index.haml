@@ -38,7 +38,7 @@
     %ul
       - @all_repos.each do |key,value|
         %li
-          %a{:href => "/tree/#{value['formatted_name']}"}= value['name']
+          %a{:href => "/#{value['formatted_name']}/tree/master"}= value['name']
           %span
             %a{:href => "##{value['formatted_name']}", :rel => '#facebox'} ?
             %div{:id => "#{value['formatted_name']}", :style => 'display:none;', :class => 'boxy'}

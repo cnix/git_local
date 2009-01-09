@@ -1,7 +1,8 @@
 %h1= "Git Local - Tree"
 %p
-  = "viewing: #{request.path_info.gsub('tree/','')}"
-  %a{:href => "/history/#{params[:name]}"} (history)
+  = "viewing: #{request.path_info.gsub("/tree/#{params[:id]}","")}"
+  %a{:href => "/#{params[:name]}/history/#{params[:id]}"} (history) | 
+  %a{:href => "/#{params[:name]}/commits/#{params[:id]}"} (commits)
 %ul
   - if @tree
     - @tree.contents.each do |c|

@@ -13,13 +13,17 @@ get "/" do
   haml :index
 end
 
-get "/commits/:id/:name" do
+get "/:name" do
+  redirect "/#{params[:name]}/tree/master"
+end
+
+get "/:name/commits/:id" do
   @repo = get_repo(params[:name])
+  @commits = @repo.commits(params[:id])
   haml :history
 end
 
-# TODO: need to figure out how to traverse commits
-get "/history/:id/:name" do
+get "/:name/history/:id" do
   repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
   diff_text = '[code lang="diff"]' + repo.diff(commit.parents[0], commit) + '[/code]'
@@ -37,7 +41,7 @@ get "/:name/tree/:id/*" do
   path = request.path_info.gsub("/#{params[:name]}/tree/#{params[:id]}/", '')
   repo = get_repo(params[:name])
   branch = repo.tree(params[:id])
-  new_tree = path.split('/').pop
+  new_tree = path.split('/')
   @tree = traverse(branch, new_tree)
   #if @tree.class == Grit::Blob
   #  file_text = '[code lang="ruby"]' + @tree.data + '[/code]'
@@ -82,7 +86,7 @@ helpers do
   end
   
   def traverse(branch, path)
-    #Feed this the branch to start from and the path array. The return is the tree object at the path
+    #Feed this the branch to start from and the path as an array. The return is the tree object at the path
     b = branch.clone
     path.each do |t|
       b = b./t
@@ -90,28 +94,31 @@ helpers do
     return b
   end
   
-  def build_crumb(path, branch)
+  def build_crumb(u, branch)
+    #THIS SHIT IS BROKEN!
     #This will build you a linked crumb for the path and branch.
+    tree = u.gsub("/#{params[:name]}/tree/#{params[:id]}", '')
+    path = tree.split('/').pop
     basepath = Array.new
     url = nil
-    if path != nil
+    if tree != nil
       path.each do |p|
         if basepath.empty?
           basepath = p + "/"
-          uri = URI.unescape(url_for( :path => basepath))
+          uri = basepath
         else
           basepath << p + "/"
-          uri = URI.unescape(url_for(:path => basepath))
+          uri = basepath
         end
         
         if url == nil
-          url = "<a href='#{url_for(:branch => branch)}'>#{branch}</a> / <a href='#{uri}'>#{p}</a>"
+          url = "<a href='/#{params[:name]}/tree/#{branch}'>#{p}</a>"
         else
           url = "#{url} / <a href='#{uri}'>#{p}</a>"
         end
       end
     else
-     url = "<a href='#{url_for(:branch => branch)}'>#{branch}</a>"
+     url = "<a href='#{branch}'>#{branch}</a>"
     end
     return url
   end
@@ -119,6 +126,7 @@ helpers do
   def build_uri(path, glob)
     #This will build the base path uri for the tree's parent.
     uri = path + '/' + glob
+    uri = uri.gsub('//', '/') #This is a hack to remove double slashes caused at the top level of the repo
     return uri
   end
 
