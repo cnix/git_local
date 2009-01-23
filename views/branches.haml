@@ -1,4 +1,6 @@
-%h1= "Git Local - Branches"
+%h2
+  %a{:href=>"/#{params[:name]}/tree/master"}="/#{params[:name]}"
+  %span  - Branches
 %p
 %ul
   - @branches.each do |c|

@@ -1,17 +1,17 @@
 -@title = "#{request.path_info.gsub("/tree/#{params[:id]}","")}"
 %h2
-  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "#{params[:name]}"
+  %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "/#{params[:name]}"
   = "-"
   Tree
-%p
+#meta
   -if @repo.branches[0] == nil
     There are no branches for this repo
   -else
-    = "viewing: #{request.path_info.gsub("/tree/#{params[:id]}","")}"
-    %a{:href => "/#{params[:name]}/history/#{params[:id]}"} (history)
-    %a{:href => "/#{params[:name]}/commits/#{params[:id]}"} (commits)
-    %a{:href => "/#{params[:name]}/branches"} (branches)
-%ul
+    = "#{request.path_info.gsub("/tree/#{params[:id]}","")}"
+    %a{:href => "/#{params[:name]}/history/#{params[:id]}"} history
+    %a{:href => "/#{params[:name]}/commits/#{params[:id]}"} commits
+    %a{:href => "/#{params[:name]}/branches"} branches
+%ul.tree
   - if @tree
     - @tree.contents.each do |c|
       - if c.name.match(/readme/i)

@@ -16,11 +16,11 @@
 body
   :font-family helvetica
   :background-color = !color3
-  :color = !color1
+  :color = !color2
 
 h1, h2
   :margin-left 20px
-  :color = !color1
+  :color = !color2
 
 a
   :color = !color4
@@ -90,22 +90,22 @@ div#header
           :weight light
 
 div#content
-  ul, li
+  ul.tree, ul.tree li
     :list-style none
-  ul
-    :margin 0 0 0 15px
+  ul.tree
+    :margin 0 0 0 20px
     :padding 0
-  li
-    :margin 4px 0
-    :font
-      :family monaco
-      :size 14px
-  li.blob
-    :padding-left 20px
-    :background url(images/document_text.png) no-repeat
-  li.folder
-    :padding-left 20px
-    :background url(images/folder.png) no-repeat
+    li
+      :margin 4px 0
+      :font
+        :family monaco
+        :size 14px
+    li.blob
+      :padding-left 20px
+      :background url(images/document_text.png) no-repeat
+    li.folder
+      :padding-left 20px
+      :background url(images/folder.png) no-repeat
 
 div#diff
   :color = !color2
@@ -118,7 +118,7 @@ div#file
     :background #eaeaea
     :border solid 1px #999
     :border-collapse collapse
-    :margin 20px 10px 20px 10px
+    :margin 0 10px 20px 10px
     :width 950px
     td.linenos
       :background #ccc
@@ -133,10 +133,10 @@ div#file
       
 div#readme
   :color #000
-  :background #f8f8ff
+  :background #eaeaea
   :border solid 1px #ccc
   :padding 10px
-  :margin 10px
+  :margin 10px 20px
   :font
     :family helvetica
     :size 14px
@@ -150,144 +150,20 @@ div#readme
     :background #fff
     :padding 4px
     :color #555
-
-// Ripped off from Github
-//div#file
-//  span.c
-//    :color #998
-//    :font-style italic
-//  span.err
-//    :color #a61717
-//    :background-color #e3d2d2
-//  span.k
-//    :font-weight bold
-//  span.o
-//    :font-weight bold
-//  span.cm
-//    :color #998
-//    :font-style italic
-//  span.cp
-//    :color #999
-//    :font-weight bold
-//  span.c1
-//    :color #998
-//    :font-style italic
-//  span.cs
-//    :color #999
-//    :font-weight bold
-//    :font-style italic
-//  span.gd
-//    :color #000
-//    :background-color #fdd
-//  span.gd
-//    span.x
-//      :color #000
-//      :background-color #faa
-//  span.ge
-//    :font-style italic
-//  span.gr
-//    :color #a00
-//  span.gh
-//    :color #999
-//  span.gi
-//    :color #000
-//    :background-color #dfd
-//  span.gi
-//    span.x
-//      :color #000
-//      :background-color #afa
-//  span.go
-//    :color #888
-//  span.gp
-//    :color #555
-//  span.gs
-//    :font-weight bold
-//  span.gu
-//    :color #aaa
-//  span.gt
-//    :color #a00
-//  span.kc
-//    :font-weight bold
-//  span.kd
-//    :font-weight bold
-//  span.kp
-//    :font-weight bold
-//  span.kr
-//    :font-weight bold
-//  span.kt
-//    :color #458
-//    :font-weight bold
-//  span.m
-//    :color #099
-//  span.s
-//    :color #d14
-//  span.na
-//    :color #008080
-//  span.nb
-//    :color #0086B3
-//  span.nc
-//    :color #458
-//    :font-weight bold
-//  span.no
-//    :color #008080
-//  span.ni
-//    :color #800080
-//  span.ne
-//    :color #900
-//    :font-weight bold
-//  span.nf
-//    :color #900
-//    :font-weight bold
-//  span.nn
-//    :color #555
-//  span.nt
-//    :color #000080
-//  span.nv
-//    :color #008080
-//  span.ow
-//    :font-weight bold
-//  span.w
-//    :color #bbb
-//  span.mf
-//    :color #099
-//  span.mh
-//    :color #099
-//  span.mi
-//    :color #099
-//  span.mo
-//    :color #099
-//  span.sb
-//    :color #d14
-//  span.sc
-//    :color #d14
-//  span.sd
-//    :color #d14
-//  span.s2
-//    color #d14
-//  span.se
-//    color #d14
-//  span.sh
-//    color #d14
-//  span.si
-//    color #d14
-//  span.sx
-//    color #d14
-//  span.sr
-//    :color #009926
-//  span.s1
-//    :color #d14
-//  span.ss
-//    :color #990073
-//  span.bp
-//    :color #999
-//  span.vc
-//    :color #008080
-//  span.vg
-//    :color #008080
-//  span.vi
-//    :color #008080
-//  span.il
-//    :color #099
+div#meta
+  :border solid 1px #999
+  :margin 10px 20px -1px 20px
+  :padding 7px 10px
+  :background #ccc
+  :color #555
+  :font
+    :family monaco
+  a
+    :float right
+    :margin-right 10px
+    :text-decoration underline
+    :font
+      :size 14px
 
 div#file
   :color #555
