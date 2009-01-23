@@ -1,4 +1,4 @@
-%h1
+%h2
   %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "#{params[:name]}"
   = "-"
   Diffs
@@ -6,4 +6,4 @@
   %a{:href => "/#{params[:name]}/tree/#{params[:id]}"} (tree)
   %a{:href => "/#{params[:name]}/commits/#{params[:id]}"} (commits)
   %a{:href => "/#{params[:name]}/branches"} (branches)
-%div#diff~ @formatted_text
+%div#file~ @formatted_text

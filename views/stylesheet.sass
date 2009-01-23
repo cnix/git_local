@@ -14,7 +14,7 @@
 !color7 = #eaeaea
 
 body
-  :font-family 'Lucida Grande'
+  :font-family helvetica
   :background-color = !color3
   :color = !color1
 
@@ -68,45 +68,350 @@ div#wrapper
   :background = !color6
   :overflow auto
 
+div#header
+  ul#nav, li
+    :display inline
+  ul#nav
+    :position absolute
+    :margin 0
+    :padding 15px 80px
+    :left 50%
+    :top 90px
+    :margin-left 80px
+    :border solid 1px #ccc
+    :-webkit-border-radius 5px
+    //:background #eaeaea
+    li
+      :list-style none
+      :margin 10px
+      a
+        :font
+          :size 18px
+          :weight light
+    
 div#diff
   :color = !color2
+
 div#file
   :margin 0px 10px
-  :color #ccc
-  :background-color #201d1d
-  // Ruby syntax hilighting
-  span.comment
-    :color #1a5adf
-    :font
-      :style italic
-  span.punct
-    :color #2ce429
-  span.string
-    :color #009b13
-  span.ident
-    :color #bcae9e
-  span.constant
-    :color #5d5cf3
-  span.number
-    :color #43aa46
-  span.keyword
-    :color #49a8eb
-    :font
-      :style bold
-  span.symbol
-    :color #c4656c
-    :font
-      :style bold
-  span.attribute
-    :color #348494
-    :font
-      :style bold
-  span.method
-    :color #fd935c
-  span.class
-    :color #bcae9e
-    :text-decoration underline
-  
+  :color #000
+  :background-color #fff
+  table.highlighttable
+    :background #eaeaea
+    :border solid 1px #999
+    :border-collapse collapse
+    :margin 20px 10px 20px 10px
+    :width 950px
+    td.linenos
+      :background #ccc
+      :color #555
+      :border-right solid 1px #999
+      :padding 0 10px 0 10px
+      :width 30px
+      :text-align right
+    td.code
+      :background #fff
+      :padding 0 10px 0 10px
+      
+div#readme
+  :color #000
+  :background #f8f8ff
+  :border solid 1px #ccc
+  :padding 10px
+  :margin 10px
+  :font
+    :family helvetica
+    :size 14px
+  h2, p
+    :color #000
+    :margin 0
+  p
+    :margin 10px
+  pre
+    :border solid 1px #ccc
+    :background #fff
+    :padding 4px
+    :color #555
+
+// Ripped off from Github
+//div#file
+//  span.c
+//    :color #998
+//    :font-style italic
+//  span.err
+//    :color #a61717
+//    :background-color #e3d2d2
+//  span.k
+//    :font-weight bold
+//  span.o
+//    :font-weight bold
+//  span.cm
+//    :color #998
+//    :font-style italic
+//  span.cp
+//    :color #999
+//    :font-weight bold
+//  span.c1
+//    :color #998
+//    :font-style italic
+//  span.cs
+//    :color #999
+//    :font-weight bold
+//    :font-style italic
+//  span.gd
+//    :color #000
+//    :background-color #fdd
+//  span.gd
+//    span.x
+//      :color #000
+//      :background-color #faa
+//  span.ge
+//    :font-style italic
+//  span.gr
+//    :color #a00
+//  span.gh
+//    :color #999
+//  span.gi
+//    :color #000
+//    :background-color #dfd
+//  span.gi
+//    span.x
+//      :color #000
+//      :background-color #afa
+//  span.go
+//    :color #888
+//  span.gp
+//    :color #555
+//  span.gs
+//    :font-weight bold
+//  span.gu
+//    :color #aaa
+//  span.gt
+//    :color #a00
+//  span.kc
+//    :font-weight bold
+//  span.kd
+//    :font-weight bold
+//  span.kp
+//    :font-weight bold
+//  span.kr
+//    :font-weight bold
+//  span.kt
+//    :color #458
+//    :font-weight bold
+//  span.m
+//    :color #099
+//  span.s
+//    :color #d14
+//  span.na
+//    :color #008080
+//  span.nb
+//    :color #0086B3
+//  span.nc
+//    :color #458
+//    :font-weight bold
+//  span.no
+//    :color #008080
+//  span.ni
+//    :color #800080
+//  span.ne
+//    :color #900
+//    :font-weight bold
+//  span.nf
+//    :color #900
+//    :font-weight bold
+//  span.nn
+//    :color #555
+//  span.nt
+//    :color #000080
+//  span.nv
+//    :color #008080
+//  span.ow
+//    :font-weight bold
+//  span.w
+//    :color #bbb
+//  span.mf
+//    :color #099
+//  span.mh
+//    :color #099
+//  span.mi
+//    :color #099
+//  span.mo
+//    :color #099
+//  span.sb
+//    :color #d14
+//  span.sc
+//    :color #d14
+//  span.sd
+//    :color #d14
+//  span.s2
+//    color #d14
+//  span.se
+//    color #d14
+//  span.sh
+//    color #d14
+//  span.si
+//    color #d14
+//  span.sx
+//    color #d14
+//  span.sr
+//    :color #009926
+//  span.s1
+//    :color #d14
+//  span.ss
+//    :color #990073
+//  span.bp
+//    :color #999
+//  span.vc
+//    :color #008080
+//  span.vg
+//    :color #008080
+//  span.vi
+//    :color #008080
+//  span.il
+//    :color #099
+
+div#file
+  :color #555
+  span
+    :color #000
+  span.c
+    :color #998
+    :font-style italic
+  span.err
+    :color #a61717
+    :background-color #e3d2d2
+  span.k
+    :color #fd5615
+    :font-weight bold
+  span.o
+    :font-weight bold
+  span.cm
+    :color #998
+    :font-style italic
+  span.cp
+    :color #999
+    :font-weight bold
+  span.c1
+    :color #998
+    :font-style italic
+  span.cs
+    :color #999
+    :font-weight bold
+    :font-style italic
+  span.gd
+    :color #000
+    :background-color #fdd
+  span.gd
+    span.x
+      :color #000
+      :background-color #faa
+  span.ge
+    :font-style italic
+  span.gr
+    :color #26439a
+  span.gh
+    :color #999
+  span.gi
+    :color #000
+    :background-color #dfd
+  span.gi
+    span.x
+      :color #000
+      :background-color #afa
+  span.go
+    :color #888
+  span.gp
+    :color #555
+  span.gs
+    :font-weight bold
+  span.gu
+    :color #aaa
+  span.gt
+    :color #26439a
+  span.kc
+    :font-weight bold
+  span.kd
+    :font-weight bold
+  span.kp
+    :font-weight bold
+  span.kr
+    :font-weight bold
+  span.kt
+    :color #458
+    :font-weight bold
+  span.m
+    :color #099
+  span.s
+    :color #fd5615
+  span.na
+    :color #00a341
+  span.nb
+    :color #000
+  span.nc
+    :color #458
+    :font-weight bold
+  span.no
+    :color #98000b
+  span.ni
+    :color #800080
+  span.ne
+    :color #a635ad
+    :font-weight bold
+  span.nf
+    :color #26439a
+    :font-weight bold
+  span.nn
+    :color #555
+  span.nt
+    :color #000
+  span.nv
+    :color #00a341
+  span.ow
+    :font-weight bold
+  span.w
+    :color #bbb
+  span.mf
+    :color #26439a
+  span.mh
+    :color #26439a
+  span.mi
+    :color #26439a
+  span.mo
+    :color #26439a
+  span.sb
+    :color #fd5615
+  span.sc
+    :color #fd5615
+  span.sd
+    :color #fd5615
+  span.s2
+    :color #00a341
+  span.se
+    :color #fd5615
+  span.sh
+    :color #fd5615
+  span.si
+    :color #fd5615
+  span.sx
+    :color #00a341
+  span.sr
+    :color #009926
+  span.s1
+    :color #00a341
+  span.ss
+    :color #990073
+  span.bp
+    :color #999
+  span.vc
+    :color #00a341
+  span.vg
+    :color #98000b
+  span.vi
+    :color #a635ad
+  span.il
+    :color #099
+
 li.sha
   :margin-top 10px
   :color = !color1

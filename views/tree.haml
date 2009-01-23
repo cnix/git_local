@@ -1,4 +1,5 @@
-%h1
+-@title = "#{request.path_info.gsub("/tree/#{params[:id]}","")}"
+%h2
   %a{:href => "/#{params[:name]}/tree/#{params[:id]}"}= "#{params[:name]}"
   = "-"
   Tree
@@ -19,7 +20,6 @@
         %a{:href => "#{build_uri(request.path_info, c.name)}"}= c.name
 
 - if @formatted_text 
-  %div#file~ @formatted_text
+  #file{:class => "#{@lang_class}"}~ @formatted_text
 - if @readme != nil
-  - file_text = syntaxi_lang("all") + @readme.data + '[/code]'
-  %div#file~ format_text(file_text)
+  %div#readme~ RedCloth.new(@readme.data).to_html

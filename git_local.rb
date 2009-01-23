@@ -1,59 +1,70 @@
 #!ruby
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
 
 # Required Gems
-%w(rubygems syntaxi grit sinatra yaml haml ftools open-uri).each {|d| require d}
+%w(rubygems syntaxi grit sinatra yaml haml open-uri albino redcloth).each {|d| require d}
 
-Syntaxi::wrap_at_column = 120
-Syntaxi::line_number_method = 'floating'
 layout 'layout.haml'
+
+## Index
 get "/" do
-  Syntaxi::line_number_method = 'none'
   load_config
   load_repos
   haml :index
 end
 
+## Tree
 get "/:name" do
+  load_config
   redirect "/#{params[:name]}/tree/master"
 end
 
+## Commit History
 get "/:name/commits/:id" do
+  load_config
   @repo = get_repo(params[:name])
   @commits = @repo.commits(params[:id])
   haml :history
 end
 
+## File Last Changed Diff View
 get "/:name/history/:id" do
+  load_config
   repo = get_repo(params[:name])
   commit = repo.commit(params[:id])
-  diff_text = '[code lang="diff"]' + repo.diff(commit.parents[0], commit) + '[/code]'
-  @formatted_text = Syntaxi.new(diff_text).process
+  diff_text = repo.diff(commit.parents[0], commit)
+  @formatted_text = Albino.new(diff_text, :diff)
   haml :diff
 end
 
+## Tree
 get "/:name/tree/:id" do
+  load_config
   @repo = get_repo(params[:name])
   @tree = @repo.tree(params[:id])
   haml :tree
 end
 
+## Tree
 get "/:name/tree/:id/*" do
+  load_config
   path = request.path_info.gsub("/#{params[:name]}/tree/#{params[:id]}/", '')
-  repo = get_repo(params[:name])
-  @repo = repo
-  branch = repo.tree(params[:id])
+  @repo = get_repo(params[:name])
+  branch = @repo.tree(params[:id])
   new_tree = path.split('/')
   r = traverse(branch, new_tree)
   if r.class == Grit::Blob
-    file_text = syntaxi_lang(r.name) + r.data + '[/code]'
-    @formatted_text = format_text(file_text)
+    lang = syntax_lang(r.name)
+    @formatted_text = Albino.new(r.data, lang)
   else
     @tree = r
   end
   haml :tree
 end
 
+## Branches
 get "/:name/branches" do
+  load_config
   @branches = get_repo(params[:name]).branches
   haml :branches
 end
@@ -99,22 +110,11 @@ helpers do
     return b
   end
   
-  def format_text(file_text)
-    #This method will return the syntaxi formatted text.
-    text = Syntaxi.new(file_text).process
-    return text
-  end
-  
-  def syntaxi_lang(filename)
+  def syntax_lang(filename)
     #This method will set the language based on the file extension.
     filetype = filename.split( '.' )
-    if filetype.last == "rb"
-      lang = "ruby"
-    end
-    if lang.nil?
-      lang = "all"
-    end
-    return "[code lang='#{lang}']"
+    lang = filetype.last
+    return lang.to_sym
   end
   
   def build_uri(path, glob)
@@ -155,7 +155,7 @@ helpers do
 
   def create_repositories_path(path, username)
     load_config
-    File.makedirs(path) unless Dir.new(path)
+    File.makedirs(path)
     @config_to_create = { 'path' => path, 'username' => username }
     config_to_write
     File.open('config/config.yml', 'w') do |w|

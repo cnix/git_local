@@ -1,11 +1,21 @@
 !!! strict
 %html
   %head
-    %title= 'Git Local'
+    %title= @title ? "#{@title} :: Git Local" : 'Git Local'
     %link{ :rel => 'stylesheet', :href => '/stylesheet.css', :type => 'text/css' }
     %script{ :src => '/facebox/jquery.js', :type => 'text/javascript' }
     %link{ :href => '/facebox/facebox.css', :media => 'screen', :rel => 'stylesheet', :type => 'text/css' }
     %script{ :src => '/facebox/facebox.js', :type => 'text/javascript' }
     %script{ :src => '/application.js', :type => 'text/javascript' }
   %body
-    #wrapper="<a href='/'>home</a> #{yield}"
+    #wrapper
+      #header
+        %h1= "#{@config['username'].capitalize}'s Git Local" unless !@config['username']
+        %ul#nav
+          %li
+            %a{:href=> '/'} home
+          %li
+            %a{:href=>'#'} config
+          %li
+            %a{:href=>'#'} docs
+      #content= yield
