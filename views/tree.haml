@@ -14,7 +14,9 @@
 %ul.tree
   - if @tree
     - @tree.contents.each do |c|
-      - if c.name.match(/readme/i)
+      - if c.name.match(/readme.textile/i)
+        - @pretty_readme=c
+      - elsif c.name.match(/readme/i)
         - @readme=c
       - if c.class == Grit::Blob
         %li.blob
@@ -25,5 +27,7 @@
 
 - if @formatted_text 
   #file{:class => "#{@lang_class}"}~ @formatted_text
-- if @readme != nil
-  %div#readme~ RedCloth.new(@readme.data).to_html
+- if @pretty_readme != nil
+  %div#readme~ RedCloth.new(@pretty_readme.data).to_html
+- elsif @readme != nil
+  %div#readme~ "<pre>#{@readme.data}</pre>"

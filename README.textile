@@ -10,6 +10,7 @@ h3. gems
 * redcloth
 * grit
 * haml
+* open4
 
 h3. Usage
 
