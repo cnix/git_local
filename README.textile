@@ -19,3 +19,10 @@ h3. Usage
 <pre><code>
 ruby git_local.rb
 </code></pre>
+
+h3. Screenshots
+!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/home.png!
+!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/project.png!
+!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/file.png!
+!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/commits.png!
+!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/diff.png!
