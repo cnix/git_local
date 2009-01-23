@@ -16,8 +16,12 @@
     - @tree.contents.each do |c|
       - if c.name.match(/readme/i)
         - @readme=c
-      %li
-        %a{:href => "#{build_uri(request.path_info, c.name)}"}= c.name
+      - if c.class == Grit::Blob
+        %li.blob
+          %a{:href => "#{build_uri(request.path_info, c.name)}"}= c.name
+        - else
+        %li.folder
+          %a{:href => "#{build_uri(request.path_info, c.name)}"}= c.name + '/'
 
 - if @formatted_text 
   #file{:class => "#{@lang_class}"}~ @formatted_text

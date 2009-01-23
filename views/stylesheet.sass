@@ -88,7 +88,25 @@ div#header
         :font
           :size 18px
           :weight light
-    
+
+div#content
+  ul, li
+    :list-style none
+  ul
+    :margin 0 0 0 15px
+    :padding 0
+  li
+    :margin 4px 0
+    :font
+      :family monaco
+      :size 14px
+  li.blob
+    :padding-left 20px
+    :background url(images/document_text.png) no-repeat
+  li.folder
+    :padding-left 20px
+    :background url(images/folder.png) no-repeat
+
 div#diff
   :color = !color2
 
