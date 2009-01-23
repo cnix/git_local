@@ -9,7 +9,7 @@ h3. gems
 * sinatra
 * redcloth
 * grit
-* haml
+* haml 2.x
 * open4
 
 h3. Usage

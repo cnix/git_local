@@ -112,8 +112,12 @@ helpers do
   
   def syntax_lang(filename)
     #This method will set the language based on the file extension.
-    filetype = filename.split( '.' )
-    lang = filetype.last
+    if filename.include? '.'
+      filetype = filename.split('.')
+      lang = filetype.last
+    else
+      lang = 'text'
+    end
     return lang.to_sym
   end
   
