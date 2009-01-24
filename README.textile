@@ -57,7 +57,7 @@ when that's done, run
 sudo passenger-install-apache2-module
 </code></pre>
 
-and follow the instructions to get passenger running on your machine.  If you already ran the git_local setup task and elected to enable Basic HTTP Authentication, then your Rack configuration is already taken care of.  Simply add the virtual host to you apache2 config, and restart apache.
+and follow the instructions to get passenger running on your machine.  If you already ran the git_local setup task and elected to enable Basic HTTP Authentication, then your Rack configuration is already taken care of.  Simply add the virtual host to your apache2 config, and restart apache.
 Your vhost should look something like this:
 
 <pre><code>
@@ -69,6 +69,13 @@ Your vhost should look something like this:
     allow from all
   </Directory
 </VirtualHost>
+</code></pre>
+
+That's it! Now all you need to do is bounce apache, and you're ready to rock!
+If you need to restart git_local you can run the restart rake task with:
+
+<pre><code>
+rake restart
 </code></pre>
 
 h3. Screenshots

@@ -19,3 +19,13 @@ task :setup do
   a =~ /n|no/ ? puts("Skipping HTTP Authentication") : setup_http_auth
   puts "\nSetup is now complete!"
 end
+
+desc "Restart the app if it's running on Phusion Passenger"
+task :restart do
+  begin
+    sh "touch tmp/restart.txt"
+    puts "\nSuccessfully bounced the apache2 server"
+    rescue => e
+    puts "Oops, something went wrong.  Did you create the tmp/ directory?"
+  end
+end
