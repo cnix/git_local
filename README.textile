@@ -7,18 +7,40 @@ it's basically an excuse to play with grit and sinatra, and it's not quite as us
 h3. gems
 
 * sinatra
-* redcloth
+* RedCloth
 * grit
+* mime-types
 * haml 2.x
 * open4
+* passenger (optional)
+
+h3. Other Dependencies
+
+* pygments "http://pygments.org":http://pygments.org
 
 h3. Usage
 
+* run the setup utility
+
+<pre><code>
+# from the git_local directory run...
+rake setup
+# ...and follow the prompts.  git_local uses Rack, so if you plan to run
+# git_local on a server that supports Rack middleware, you have the option
+# to enable Basic HTTP Authentication. If you're not using Rack, just answer 'no'
+# when prompted to setup HTTP Authentication
+</code></pre>
+
+h4. Run git_local in development mode (starts git_local on port 4567)
 * start the server:
 
 <pre><code>
 ruby git_local.rb
 </code></pre>
+
+h4. Run git_local in production with passenger!
+
+git_local runs on "Sinatra":http://github.com/bmizerany/sinatra, and Sinatra makes deploying with "Phusion Passenger":http://modrails.com a cinch. 
 
 h3. Screenshots
 !http://github.com/whatman75/git_local/raw/master/public/images/screenshots/home.png!
