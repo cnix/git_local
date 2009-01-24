@@ -9,9 +9,9 @@ require 'lib/rake_utils'
 desc "Setup git_local"
 task :setup do
   check_for_pygmentize
-  puts "\nWould you like to create a symlink in /usr/bin to the git_local command line utility? (y/n)"
-  a = STDIN.gets.downcase
-  a =~ /n|no/ ? puts("Skipping symlink") : create_symlink
+  # puts "\nWould you like to create a symlink in /usr/bin to the git_local command line utility? (y/n)"
+  # a = STDIN.gets.downcase
+  # a =~ /n|no/ ? puts("Skipping symlink") : create_symlink
   puts "\n## If you're using Phusion Passenger (or some other server/module that uses Rack)"
   puts "## You can have Basic HTTP Authentication with Rack::Auth"
   puts "\nWould you like to use HTTP Authentication? (y/n)"

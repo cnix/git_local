@@ -25,11 +25,16 @@ h3. Usage
 <pre><code>
 # from the git_local directory run...
 rake setup
-# ...and follow the prompts.  git_local uses Rack, so if you plan to run
-# git_local on a server that supports Rack middleware, you have the option
-# to enable Basic HTTP Authentication. If you're not using Rack, just answer 'no'
-# when prompted to setup HTTP Authentication
+# ...and follow the prompts.  
 </code></pre>
+
+git_local will first check for a few dependencies, and attempt to install
+them if they are not available. After that, you will be prompted to set up
+Basic HTTP Authentication.  git_local uses Rack, so if you plan to run
+git_local on a server that supports Rack middleware, you have the option
+to enable and configure Basic HTTP Authentication. If you're not using Rack,
+just answer 'no' when prompted to setup HTTP Authentication
+
 
 h4. Run git_local in development mode (starts git_local on port 4567)
 * start the server:
@@ -40,7 +45,31 @@ ruby git_local.rb
 
 h4. Run git_local in production with passenger!
 
-git_local runs on "Sinatra":http://github.com/bmizerany/sinatra, and Sinatra makes deploying with "Phusion Passenger":http://modrails.com a cinch. 
+git_local runs on "Sinatra":http://github.com/bmizerany/sinatra, and Sinatra makes deploying with "Phusion Passenger":http://modrails.com a cinch. If you haven't already, run
+
+<pre><code>
+sudo gem install passenger
+</code></pre>
+
+when that's done, run
+
+<pre><code>
+sudo passenger-install-apache2-module
+</code></pre>
+
+and follow the instructions to get passenger running on your machine.  If you already ran the git_local setup task and elected to enable Basic HTTP Authentication, then your Rack configuration is already taken care of.  Simply add the virtual host to you apache2 config, and restart apache.
+Your vhost should look something like this:
+
+<pre><code>
+<VirtualHost 192.168.1.199:80>
+  ServerName your.server.name
+  DocumentRoot /path/to/your/git_local/public
+  RackBaseURI /
+  <Directory /your/home/directory>
+    allow from all
+  </Directory
+</VirtualHost>
+</code></pre>
 
 h3. Screenshots
 !http://github.com/whatman75/git_local/raw/master/public/images/screenshots/home.png!
