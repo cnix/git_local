@@ -44,8 +44,7 @@ end
 
 def install_pygments
   puts "This operation will require your root password"
-  sh "sudo ls /"
-  # sh "easy_install Pygments"
+  sh "sudo easy_install Pygments"
   puts "SUCCESS!! Pygments has been installed on your system"
 end
 

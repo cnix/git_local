@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'config/rake_utils'
  
 Sinatra::Application.default_options.merge!(
   :run => false,
