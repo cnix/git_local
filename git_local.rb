@@ -2,7 +2,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
 
 # Required Gems
-%w(rubygems grit sinatra yaml haml open-uri albino redcloth).each {|d| require d}
+%w(rubygems grit sinatra ftools yaml haml open-uri albino redcloth).each {|d| require d}
 
 layout 'layout.haml'
 
