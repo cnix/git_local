@@ -26,7 +26,7 @@ h3. Usage
 <pre><code>
 # from the git_local directory run...
 rake setup
-# ...and follow the prompts.  
+# ...and follow the prompts.
 </code></pre>
 
 git_local will first check for a few dependencies, and attempt to install
@@ -80,8 +80,8 @@ rake restart
 </code></pre>
 
 h3. Screenshots
-!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/home.png!
-!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/project.png!
-!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/file.png!
-!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/commits.png!
-!http://github.com/whatman75/git_local/raw/master/public/images/screenshots/diff.png!
+!http://github.com/cnix/git_local/raw/master/public/images/screenshots/home.png!
+!http://github.com/cnix/git_local/raw/master/public/images/screenshots/project.png!
+!http://github.com/cnix/git_local/raw/master/public/images/screenshots/file.png!
+!http://github.com/cnix/git_local/raw/master/public/images/screenshots/commits.png!
+!http://github.com/cnix/git_local/raw/master/public/images/screenshots/diff.png!
